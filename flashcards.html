@@ -1,0 +1,63 @@
+<div style="font-family: Segoe UI, sans-serif; background:#f6fbfb; display:flex; flex-direction:column; align-items:center; justify-content:center; margin:0;">
+
+    <h2 style="color:#164a4a; margin-bottom:20px;">🌿 Glossary Flashcards</h2>
+
+    <div id="flashcard" onclick="flipCard()" 
+        style="width:320px; height:200px; border-radius:14px; box-shadow:0 6px 18px rgba(20,40,40,0.15); display:flex; align-items:center; justify-content:center; background:#ffffff; border:3px solid #7cc6c6; font-size:22px; font-weight:600; color:#164a4a; cursor:pointer; transition:transform 0.6s; transform-style:preserve-3d; position:relative;">
+        <div id="card-front" style="position:absolute; backface-visibility:hidden;"></div>
+        <div id="card-back" style="position:absolute; backface-visibility:hidden; transform:rotateY(180deg); font-size:18px; color:#163c3c; text-align:center;"></div>
+    </div>
+
+    <div style="margin-top:20px; display:flex; gap:12px;">
+        <button onclick="prevCard()" style="padding:10px 18px; border:none; border-radius:8px; background:#7cc6c6; color:white; font-size:16px; cursor:pointer;">⬅ Prev</button>
+        <button onclick="flipCard()" style="padding:10px 18px; border:none; border-radius:8px; background:#5aa9a9; color:white; font-size:16px; cursor:pointer;">🔄 Flip</button>
+        <button onclick="nextCard()" style="padding:10px 18px; border:none; border-radius:8px; background:#7cc6c6; color:white; font-size:16px; cursor:pointer;">Next ➡</button>
+    </div>
+
+    <p id="counter" style="margin-top:12px; color:#5b6b6b; font-size:14px;"></p>
+
+    <script>
+        const terms = [
+            {en:"Quadratic equation", ru:"Квадратное уравнение", kz:"Квадраттық теңдеу"},
+            {en:"Polynomial", ru:"Многочлен", kz:"Көпмүше"},
+            {en:"Variable", ru:"Переменная", kz:"Айнымалы"},
+            {en:"Coefficient", ru:"Коэффициент", kz:"Коэффициент"},
+            {en:"Constant term", ru:"Свободный член", kz:"Тұрақты мүше"},
+            {en:"Leading coefficient", ru:"Старший коэффициент", kz:"Жоғарғы коэффициент"},
+            {en:"Degree (of a polynomial)", ru:"Степень многочлена", kz:"Көпмүшенің дәрежесі"},
+            {en:"Standard form", ru:"Стандартная форма (ax²+bx+c=0)", kz:"Стандартты түрі (ax²+bx+c=0)"}
+        ];
+
+        let index = 0;
+        let flipped = false;
+        const front = document.getElementById("card-front");
+        const back = document.getElementById("card-back");
+        const card = document.getElementById("flashcard");
+        const counter = document.getElementById("counter");
+
+        function updateCard() {
+            front.textContent = terms[index].en;
+            back.innerHTML = terms[index].ru + "<br>" + terms[index].kz;
+            flipped = false;
+            card.style.transform = "rotateY(0deg)";
+            counter.textContent = `Card ${index + 1} of ${terms.length}`;
+        }
+
+        function flipCard() {
+            flipped = !flipped;
+            card.style.transform = flipped ? "rotateY(180deg)" : "rotateY(0deg)";
+        }
+
+        function nextCard() {
+            index = (index + 1) % terms.length;
+            updateCard();
+        }
+
+        function prevCard() {
+            index = (index - 1 + terms.length) % terms.length;
+            updateCard();
+        }
+
+        updateCard();
+    </script>
+</div>
